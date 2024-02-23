@@ -9,7 +9,7 @@ extension="mp4"
 filename="${filename%.*}"
 
 # Define the output file name
-output_file="${filename}_1.${extension}"
+output_file="${filename}_c.${extension}"
 
 # Run ffmpeg to convert the video
 ffmpeg -i "$input_file" \
