@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "phpmyadmin",
+    "password": "Alpha()-=//",
+    "database": "insta_app",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "phpmyadmin",
+    "password": "Alpha()-=//",
+    "database": "insta_app",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "phpmyadmin",
+    "password": "Alpha()-=//",
+    "database": "insta_app",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}

@@ -1,16 +1,13 @@
 {
-  "name": "instaapp",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "axios": "^1.6.7",
+    "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "node-fetch": "^3.3.2"
+    "express-session": "^1.18.0",
+    "mysql2": "^3.9.2",
+    "passport": "^0.7.0",
+    "passport-facebook": "^3.0.0",
+    "sequelize": "^6.37.1",
+    "sequelize-cli": "^6.6.2"
   }
 }
