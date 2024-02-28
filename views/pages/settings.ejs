@@ -4,11 +4,22 @@
 <head>
     <title>Page Settings</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <style>
         .card:hover {
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
             margin-bottom: 54px;
+        }
+        .settings-row {
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .settings-label {
+            padding-right: 15px;
+        }
+        .time-picker-container {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -25,19 +36,20 @@
             <br><br>
             <form action="/apply-settings" method="post">
                 <% pages.forEach(function(page, index) { %>
-                    <div class="row">
+                    <div class="row settings-row">
                         <div class="col s12">
                             <h5><%= page.name %> (ID: <%= page.id %>)</h5>
-                            <div class="input-field col s12">
-                                <input id="posts_<%= index %>" name="pages[<%= index %>][postsLimit]" type="number" class="validate">
-                                <label for="posts_<%= index %>">Number of Posts</label>
-                            </div>
-                            <div class="input-field col s12">
-                                <input id="time_<%= index %>" name="pages[<%= index %>][schedule]" type="text" class="validate">
-                                <label for="time_<%= index %>">Schedule Time (e.g., 10:00 - 18:00)</label>
-                            </div>
-                            <input type="hidden" name="pages[<%= index %>][id]" value="<%= page.id %>">
                         </div>
+                        <div class="col s6 m3 settings-label">
+                            <label for="posts_<%= index %>">Number of Posts:</label>
+                        </div>
+                        <div class="col s6 m3">
+                            <input id="posts_<%= index %>" name="pages[<%= index %>][postsLimit]" type="number" class="validate posts-input" data-index="<%= index %>" min="1" max="24">
+                        </div>
+                        <div class="col s2 time-picker-container" id="timePickersContainer_<%= index %>">
+                            <!-- Time pickers will be injected here based on the number of posts -->
+                        </div>
+                        <input type="hidden" name="pages[<%= index %>][id]" value="<%= page.id %>">
                     </div>
                 <% }); %>
                 <div class="row">
@@ -56,7 +68,30 @@
             </form>
         </div>
     </div>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const postsInputs = document.querySelectorAll('.posts-input');
+
+            postsInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    const index = this.getAttribute('data-index');
+                    const numberOfPosts = parseInt(this.value);
+                    const container = document.querySelector(`#timePickersContainer_${index}`);
+                    container.innerHTML = ''; // Clear previous time pickers
+
+                    for (let i = 0; i < numberOfPosts; i++) {
+                        const timePicker = document.createElement('input');
+                        timePicker.type = 'text';
+                        timePicker.classList.add('timepicker');
+                        timePicker.name = `pages[${index}][scheduleTimes][${i}]`;
+                        container.appendChild(timePicker);
+
+                        M.Timepicker.init(timePicker, { twelveHour: false }); // Initialize new time picker
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

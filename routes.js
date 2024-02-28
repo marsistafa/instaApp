@@ -2,6 +2,7 @@ const passport = require('passport');
 const express = require('express');
 var router = express.Router();
 const axios = require('axios');
+const config = require('./config');
 
 router.get('/', function (req, res) {
   res.render('pages/index.ejs'); // load the index.ejs file
@@ -18,15 +19,13 @@ router.get('/profile', function (req, res) {
 });
 router.get('/fetch-pages', function(req, res) {
   const user = req.user; 
-  const accessToken = 'EAANI7DlhtFMBO7yqEdMSXVrba099qUlrLIBZCrgdIEHsSVZCv2aYWvnL10D8tgLjeRwPgm00fiuNobHyN3MGpTvfOugZCm62wWRam8hNLZAKjQyYwlD4f8quXGYDqwnfIZAU0ZCkQZBIO0L9qqTTG0nU43S1HrKJdkFCmHIm0DnMSotZBYK33tujDUjKPJvLKrFZCW4q2YS80jTFlF5Wv'; // Assuming you've stored the access token in the user session object
+  const accessToken = config.facebookAuth.access_token; // Assuming you've stored the access token in the user session object
 
   const url = `https://graph.facebook.com/v19.0/me/accounts?access_token=${accessToken}`;
 
   axios.get(url)
     .then(response => {
-      console.log(response.data); // Log the whole body to see the structure
-
-      // Send the data to your frontend or handle it as needed
+      console.log(response.data); 
       res.render('pages/userPages', { pages: response.data.data });
     })
     .catch(error => {
@@ -37,7 +36,21 @@ router.get('/fetch-pages', function(req, res) {
 });
 
 router.get('/settings', function (req, res) {
-  res.render('pages/settings.ejs');
+  const user = req.user; 
+  const accessToken = config.facebookAuth.access_token; // Assuming you've stored the access token in the user session object
+
+  const url = `https://graph.facebook.com/v19.0/me/accounts?access_token=${accessToken}`;
+
+  axios.get(url)
+    .then(response => {
+      console.log(response.data); 
+      res.render('pages/settings.ejs', { pages: response.data.data });
+    })
+    .catch(error => {
+      // Handle errors
+      console.error("Failed to fetch user's pages:", error);
+      res.send("Failed to fetch user's pages.");
+    });
 });
 
 router.get('/error', function (req, res) {
@@ -67,6 +80,8 @@ router.get('/logout', function (req, res) {
   req.logout();
   res.redirect('/');
 });
+
+
 
 function isLoggedIn(req, res, next) {
   
