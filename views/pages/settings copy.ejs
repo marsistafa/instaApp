@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Page Settings</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <style>
+        .card:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+            margin-bottom: 54px;
+        }
+        .settings-row {
+            align-items: center;
+        }
+        .settings-label {
+            padding-right: 15px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="light-blue lighten-1" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo">Page Settings</a>
+            <a href="/logout" class="right">Logout</a>
+        </div>
+    </nav>
+    <div class="section no-pad-bot" id="index-banner">
+        <div class="container">
+            <br><br>
+            <form action="/apply-settings" method="post">
+                <% pages.forEach(function(page, index) { %>
+                    <div class="col s12">
+                        <h5><%= page.name %> (ID: <%= page.id %>)</h5>
+                        </div>
+                    <div class="row settings-row">
+                        <div class="col s6 m3 settings-label">
+                            <label for="posts_<%= index %>">Number of Posts:</label>
+                        </div>
+                        <div class="col s6 m3">
+                            <input id="posts_<%= index %>" name="pages[<%= index %>][postsLimit]" type="number" class="validate">
+                        </div>
+                        <div class="col s6 m3 settings-label">
+                            <label for="time_<%= index %>">Schedule Time:</label>
+                        </div>
+                        <div class="col s6 m3">
+                            <input id="time_<%= index %>" type="text" class="timepicker" name="pages[<%= index %>][schedule]">
+                        </div>
+                        <input type="hidden" name="pages[<%= index %>][id]" value="<%= page.id %>">
+                    </div>
+                <% }); %>
+                <div class="row">
+                    <div class="col s12">
+                        <label>
+                            <input type="checkbox" name="applyToAll" />
+                            <span>Apply the first page settings to all pages</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row center">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">Apply Settings
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.timepicker');
+            var instances = M.Timepicker.init(elems, { twelveHour: false });
+        });
+    </script>
+</body>
+
+</html>

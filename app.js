@@ -22,26 +22,26 @@ app.get('/upload-video-reel', async (req, res) => {
     const videoPath = req.query.videoPath;
     const description = req.query.description;
 
-    const accessToken = 'EAANI7DlhtFMBO6w5Iwf3vX9iBzZBWvdPuD0Hpj0IZBZAO9CY2R15YJXKhYU9OLfqXwRv7HdFhZBJZBhvwzSUdFHamB9QRoSjpbtmgfIrnzu0C4vvjL8IZBG8zWuzGx633F0iXe5HztVJ8CsoZC9s9wv6rd6QgsH7A7ZCEZBnwEdUS2ZBhu4zZBEcGNEFD3hZAdA2Du2h6jShwaVJW9Hri07kDprhtZAAZD';
-    const pageId = '1570540453218688'; 
+    const accessToken = 'EAATvPyRhL0MBOy129qwMIpSRJBKRa6AnzmVmr7kAYzdKCRB4aZCWRLizvc02P48wnYbeqhUankc43HKGnAVGI9mcvdnZB3Qt5cyrV2EiTOotfYjavPPNetqFZAeaSnUdlu4HyFgu8Gjq2skPCAuybKHWHdOcVBI9K0zzzv12WXLKMSlDfdWYKH6ifaI4XzxM95ZAt8yx0euqblpG';
+    const pageId = '276676628851996'; 
 
     try {
 
         // Step 0: Exchange short-lived token for long-lived token
-        // const exchangeTokenResponse = await axios.get(
-        //     `https://graph.facebook.com/v19.0/oauth/access_token`,
-        //     {
-        //         params: {
-        //             grant_type: 'fb_exchange_token',
-        //             client_id: appId,
-        //             client_secret: appSecret,
-        //             fb_exchange_token: accessToken,
-        //         },
-        //     }
-        // );
+        const exchangeTokenResponse = await axios.get(
+            `https://graph.facebook.com/v19.0/oauth/access_token`,
+            {
+                params: {
+                    grant_type: 'fb_exchange_token',
+                    client_id: appId,
+                    client_secret: appSecret,
+                    fb_exchange_token: accessToken,
+                },
+            }
+        );
 
-        // const longLivedAccessToken = exchangeTokenResponse.data.access_token;
-        const longLivedAccessToken ='EAANI7DlhtFMBO2jdLIcUvhYhZCbanrcusEQA3eWwhWxUn11kclCBUyiBFV2LHGoVoAQQB9AKljGZApzCWZAKg8dfny4Gazm0XHUzd4CfnDH3vaglKZCTcyO5egvZAmTZCf2sbWcSuH1V64tRZBIP0jIYw3YFgAvZAZCRIdY64qsodX6G7VjKRBPZBhklTZCRD1wutsZD';
+        const longLivedAccessToken = exchangeTokenResponse.data.access_token;
+        // const longLivedAccessToken ='EAANI7DlhtFMBO2jdLIcUvhYhZCbanrcusEQA3eWwhWxUn11kclCBUyiBFV2LHGoVoAQQB9AKljGZApzCWZAKg8dfny4Gazm0XHUzd4CfnDH3vaglKZCTcyO5egvZAmTZCf2sbWcSuH1V64tRZBIP0jIYw3YFgAvZAZCRIdY64qsodX6G7VjKRBPZBhklTZCRD1wutsZD';
       
         // Step 1: Start a video upload session
         const startUploadResponse = await axios.post(
@@ -108,6 +108,8 @@ app.get('/upload-video-reel', async (req, res) => {
         res.status(500).json({ error: 'Failed to upload video reel', details: error.response ? error.response.data : error.message });
     }
 });
+
+
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

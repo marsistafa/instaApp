@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+
+<head>
+  <title>Facebook Authentication</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+  <style>
+    .card:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      margin-bottom: 54px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">Accounts</a>
+      <a href="/logout" class="right">Logout</a>
+    </div>
+  </nav>
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+      <div class="row center">
+        <% pages.forEach(function(page) { %>
+        <div class="col s12 m6">
+          <div class="card">
+            <div class="card-content blue lighten-3">
+              <span class="card-title white-text"><strong><i class="large material-icons">business</i> <%= page.name %></strong></span>
+            </div>
+            <div class="card-action">
+              <p><strong>Page ID:</strong> <%= page.id %></p>
+              <p><strong>Category:</strong> <%= page.category %></p>
+            
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
