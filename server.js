@@ -56,41 +56,63 @@ passport.use(new FacebookStrategy({
 
 app.use('/', routes);
 
-
-// Route to handle form submission
 app.post('/apply-settings', (req, res) => {
   const { pages, applyToAll } = req.body;
-  const userID = 1; // Example user ID, replace with actual user ID
+  const userID = 1; // Example user ID, replace with actual user ID from session or authentication context
+
+  let firstPageSettings = null;
 
   pages.forEach((page, index) => {
     const pageID = page.id;
-    const maxPostsPerDay = page.postsLimit;
-    let scheduleTimes = page.scheduleTimes || [];
-
-    // Apply first page settings to all if selected
-    if (applyToAll && index === 0) {
-      scheduleTimes = pages[0].scheduleTimes;
+    const Content = page.caption;
+    let maxPostsPerDay = page.postsLimit || 0; // Default to 0 if not provided
+    let scheduledTimes = page.scheduleTimes || []; // Assume scheduleTimes are now part of each page object
+  
+    // If "Apply to All" is checked, use the first page's settings for all pages
+    if (applyToAll === 'on') {
+      if (index === 0) {
+        firstPageSettings = { maxPostsPerDay, scheduledTimes };
+      } else {
+        // Apply the first page's settings to subsequent pages
+        maxPostsPerDay = firstPageSettings.maxPostsPerDay;
+        scheduledTimes = firstPageSettings.scheduledTimes;
+      }
     }
+
 
     // Update or insert into Settings table
     const settingsQuery = 'REPLACE INTO Settings (UserID, PageID, MaxPostsPerDay, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
     connection.query(settingsQuery, [userID, pageID, maxPostsPerDay], (err) => {
-      if (err) throw err;
+      if (err) {
+        console.error('Error updating settings:', err);
+        return res.status(500).send('An error occurred while updating settings.');
+      }
 
-      // Handle schedule times for each post
-      scheduleTimes.forEach((time, idx) => {
-        const postQuery = 'INSERT INTO Posts (PageID, UserID, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
+      const pageQuery = 'REPLACE INTO Pages (PageID, UserID, Content, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
+      connection.query(pageQuery, [pageID, userID, Content], (err) => {
+        if (err) {
+          console.error('Error saving page:', err);
+          // Consider accumulating errors to handle them after the loop
+        }
+      });
+
+      // Insert or update scheduled times for each post
+      scheduledTimes.forEach((time) => {
+        if (!time) return; // Skip empty or undefined times
+        const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
         connection.query(postQuery, [pageID, userID, time], (err) => {
-          if (err) throw err;
-          // Successfully saved post schedule
+          if (err) {
+            console.error('Error saving scheduled post:', err);
+            // Consider accumulating errors to handle them after the loop
+          }
         });
       });
     });
   });
 
-  res.send('Settings applied successfully');
+  // Redirect with client-side script for alert
+  res.send(`<script>alert('Settings applied successfully'); window.location.href = '/settings';</script>`);
 });
-
 
 
 app.listen(port, () => {

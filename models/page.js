@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     PageID: DataTypes.INTEGER,
     UserID: DataTypes.INTEGER,
     PageAuthToken: DataTypes.TEXT,
+    Content: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE
   }, {
