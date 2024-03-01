@@ -5,11 +5,11 @@ const PORT = 3001;
 
 app.use(express.json());
 
-const accessToken = "EAANVvne9rUwBOZC715t109ZBncdhDpzseGTr5KWhICk4OVHI0HiW6HoKojpznOJVTzW8MvmFVvbHJD11BJhgPPrYZAgwIjpxxRyc59cgx7Q7lL2xUTTU5M4Bm3uqKLzMfp3mg3GiXSBJdTlsGQyM89c1kAaEOVi4nVvNwgmJ7Sq8S2F4pZBmbrKiBZCuC5I8qP0WqDPsmyyTM66ZCcKQZDZD";
+const accessToken = "EAATvPyRhL0MBO8fiq3cuLXLDiu9ghUJqPdwTRcu1hoJV3HRVNXvKaMzZCuUtv6tNIBzxsFhXfx8WZBluXq3z02HIW1PBZB2d41WZC4qAXiKmMLIxqgCU9ZANCmWF0jy2WcQ7hS9PcVvVg5rFODoIo9RLuLtg1ZCEsmjfZCYtt9laUfeLDIzFcZBZCNdoZD";
 const instagramUserId = "17841449973104506";
 
 app.get('/upload-ig-reel', async (req, res) => {
-    const reelUrl = "https://paping.loophole.site/al_c.mp4";
+    const reelUrl = "https://authfaceb.loophole.site/al_c.mp4";
     const caption = "Trust the process #hashtag";
 
     const postUrl = `https://graph.facebook.com/${instagramUserId}/media?video_url=${encodeURIComponent(reelUrl)}&caption=${encodeURIComponent(caption)}&access_token=${accessToken}&media_type=REELS&share_to_feed=true`;
