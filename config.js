@@ -2,7 +2,7 @@ module.exports = {
 	'facebookAuth': {
 		'clientID':  '1388954379169603',
 		'clientSecret': '62ce6c63bacc1769b4a2b7ec5fcc9809',
-		'callbackURL':  'https://authfaceb.loophole.site/auth/facebook/callback',
-		'access_token':'EAATvPyRhL0MBO8fiq3cuLXLDiu9ghUJqPdwTRcu1hoJV3HRVNXvKaMzZCuUtv6tNIBzxsFhXfx8WZBluXq3z02HIW1PBZB2d41WZC4qAXiKmMLIxqgCU9ZANCmWF0jy2WcQ7hS9PcVvVg5rFODoIo9RLuLtg1ZCEsmjfZCYtt9laUfeLDIzFcZBZCNdoZD'
+		'callbackURL':  'https://authface.loophole.site/auth/facebook/callback',
+		'access_token':'EAATvPyRhL0MBO6ZBSJtyvGV5lSZA6n82LOjZAZAgFqYBV6UkAS69mWUZCZBjd6l7xuGR2vaGLw0tQzYIHWAzOdtWqmqVr60boiw0bOJvIo7KrMRpgsB0ZA2pQ8ftHJtDbPy4caY9TPrJofa5boKnbkXeWcaImbI0vsFG49VaDmssDAYYlWRjZBTRD0UJQ8Cy3mDs6TjB9PZCt1HcaqU70cU7tvUUZD'
 	}
 }

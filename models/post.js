@@ -18,7 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     UserID: DataTypes.INTEGER,
     ScheduledTime: DataTypes.DATE,
     createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    updatedAt: DataTypes.DATE,
+    PageID: DataTypes.INTEGER,
+    Content: DataTypes.TEXT,
   }, {
     sequelize,
     modelName: 'Post',

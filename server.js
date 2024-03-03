@@ -30,8 +30,9 @@ app.use(bodyParser.json());
 // MySQL connection
 const connection = mysql.createConnection({
   host: '127.0.0.1',
+  port:3307,
   user: 'phpmyadmin',
-  password: 'Alpha()-=//',
+  password: 'Alpha',
   database: 'insta_app'
 });
 
@@ -88,8 +89,8 @@ app.post('/apply-settings', (req, res) => {
         return res.status(500).send('An error occurred while updating settings.');
       }
 
-      const pageQuery = 'REPLACE INTO Pages (PageID, UserID, Content, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
-      connection.query(pageQuery, [pageID, userID, Content], (err) => {
+      const pageQuery = 'REPLACE INTO Pages (PageID, UserID, createdAt, updatedAt) VALUES (?, ?, NOW(), NOW())';
+      connection.query(pageQuery, [pageID, userID], (err) => {
         if (err) {
           console.error('Error saving page:', err);
           // Consider accumulating errors to handle them after the loop
@@ -99,8 +100,8 @@ app.post('/apply-settings', (req, res) => {
       // Insert or update scheduled times for each post
       scheduledTimes.forEach((time) => {
         if (!time) return; // Skip empty or undefined times
-        const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
-        connection.query(postQuery, [pageID, userID, time], (err) => {
+        const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())';
+        connection.query(postQuery, [pageID, userID, Content, time], (err) => {
           if (err) {
             console.error('Error saving scheduled post:', err);
             // Consider accumulating errors to handle them after the loop

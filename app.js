@@ -22,6 +22,7 @@ const dbConfig = {
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
+    port:3307
   };
   
   // Placeholder for database connection
@@ -42,7 +43,7 @@ const dbConfig = {
 
     // Function to fetch scheduled posts from the database
     async function fetchScheduledPosts() {
-    const [rows] = await dbConnection.execute('SELECT * FROM Posts WHERE ScheduledTime <= NOW() AND Published = FALSE');
+    const [rows] = await dbConnection.execute('SELECT * FROM Posts WHERE ScheduledTime <= NOW()');
     return rows;
     }
 
@@ -84,15 +85,37 @@ async function publishPost(post) {
                 });
     
             const { video_id } = startUploadResponse.data;
-     
+                console.log(video_id);
             // Step 2: Upload the video  
            const response = await axios.post(`https://rupload.facebook.com/video-upload/v19.0/${video_id}`, null, {
             headers: {
                 'Authorization': `OAuth ${longLivedAccessToken}`,
-                'file_url': 'https://paping.loophole.site/al_c.mp4',
+                'file_url': 'https://pandafiles.loophole.site/instaApp/files/GH4VjRlMJO__xH0BAP_NSsIOla13bmdjAAAF.mp4',
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             });
+              console.log("second res:",response);
+            // const localFilePath = path.join(__dirname, 'instaApp', 'files', 'GH4VjRlMJO__xH0BAP_NSsIOla13bmdjAAAF.mp4');
+
+            // // Read the local file as a buffer
+            // const fileBuffer = fs.readFileSync(localFilePath);
+
+            // // Make the axios request
+            // try {
+            //   const response = await axios.post(
+            //     `https://rupload.facebook.com/video-upload/v19.0/${video_id}`,
+            //     fileBuffer,  // Use the file buffer as the request body
+            //     {
+            //       headers: {
+            //         'Authorization': `OAuth ${longLivedAccessToken}`,
+            //         'Content-Type': 'multipart/form-data',  // Use 'multipart/form-data' for file uploads
+            //       },
+            //     }
+            //   );
+            //   console.log(response.data);
+            // } catch (error) {
+            //   console.error('Error uploading video:', error.response ? error.response.data : error.message);
+            // }
     
             // Step 3: Publish the reel using the uploaded video
             const publishResponse = await axios.post(

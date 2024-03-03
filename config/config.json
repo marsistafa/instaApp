@@ -1,22 +1,26 @@
 {
   "development": {
     "username": "phpmyadmin",
-    "password": "Alpha()-=//",
+    "password": "Alpha",
     "database": "insta_app",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "port": 3307,
+    "dialect": "mariadb",
+    "dialectOptions": {
+      "allowPublicKeyRetrieval": true
+    }
   },
   "test": {
-    "username": "phpmyadmin",
-    "password": "Alpha()-=//",
-    "database": "insta_app",
+    "username": "root",
+    "password": null,
+    "database": "database_test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
-    "username": "phpmyadmin",
-    "password": "Alpha()-=//",
-    "database": "insta_app",
+    "username": "root",
+    "password": null,
+    "database": "database_production",
     "host": "127.0.0.1",
     "dialect": "mysql"
   }

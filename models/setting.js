@@ -18,7 +18,9 @@ module.exports = (sequelize, DataTypes) => {
     UserID: DataTypes.INTEGER,
     MaxPostsPerDay: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
-    updatedAt: DataTypes.DATE
+    updatedAt: DataTypes.DATE,
+    PageID: DataTypes.INTEGER,
+
   }, {
     sequelize,
     modelName: 'Setting',
