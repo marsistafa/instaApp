@@ -42,9 +42,21 @@ const dbConfig = {
 
     // Function to fetch scheduled posts from the database
     async function fetchScheduledPosts() {
-    const [rows] = await dbConnection.execute('SELECT * FROM Posts WHERE ScheduledTime <= NOW() AND Published = FALSE');
-    return rows;
-    }
+      // Calculate time margin
+      const margin = 5; // Margin in minutes
+      const currentTime = new Date();
+      const beforeTime = new Date(currentTime.getTime() - margin * 60000).toISOString().slice(0, 19).replace('T', ' ');
+      const afterTime = new Date(currentTime.getTime() + margin * 60000).toISOString().slice(0, 19).replace('T', ' ');
+      console.log(beforeTime);
+      console.log(afterTime);
+      const query = `
+          SELECT * FROM Posts 
+          WHERE ScheduledTime BETWEEN ? AND ? 
+          AND Published = FALSE
+      `;
+      const [rows] = await dbConnection.execute(query, [beforeTime, afterTime]);
+      return rows;
+  }
 
 async function publishPost(post) {
         console.log(post);
@@ -84,12 +96,12 @@ async function publishPost(post) {
                 });
     
             const { video_id } = startUploadResponse.data;
-     
+    //  console.log(video_id);
             // Step 2: Upload the video  
            const response = await axios.post(`https://rupload.facebook.com/video-upload/v19.0/${video_id}`, null, {
             headers: {
                 'Authorization': `OAuth ${longLivedAccessToken}`,
-                'file_url': 'https://paping.loophole.site/al_c.mp4',
+                'file_url': 'https://papings.loophole.site/files/IMG_6303_1.mp4',
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
             });
@@ -106,14 +118,19 @@ async function publishPost(post) {
                         video_id: video_id,
                         upload_phase: 'finish',
                         video_state:'PUBLISHED',
-                        description: description,
+                        description: 'aloraa',
+                        // description: description,
                         access_token: longLivedAccessToken,
                     },
                 }
             );        
-                console.log(publishResponse);
+                // console.log(publishResponse);
+              const updateQuery = 'UPDATE Posts SET Published = TRUE WHERE id = ?';
+              await dbConnection.execute(updateQuery, [post.id]);
+
+              console.log(`Post ${post.id} published successfully and marked as published in database.`);
     
-            res.json({ success: true, video_id: video_id, publishResponse: publishResponse.data });
+            // res.json({ success: true, video_id: video_id, publishResponse: publishResponse.data });
         } catch (error) {
             console.error('Error uploading video reel:', error.response ? error.response.data : error.message);
             res.status(500).json({ error: 'Failed to upload video reel', details: error.response ? error.response.data : error.message });

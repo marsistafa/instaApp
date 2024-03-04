@@ -56,6 +56,18 @@ passport.use(new FacebookStrategy({
 
 app.use('/', routes);
 
+app.delete('/delete-scheduled-post/:postId', async (req, res) => {
+  const { postId } = req.params;
+  try {
+      // Assuming you have a function or a way to delete the post by ID
+      connection.execute('DELETE FROM Posts WHERE id = ?', [postId]);
+      res.json({ success: true, message: 'Post deleted successfully' });
+  } catch (error) {
+      console.error('Failed to delete post:', error);
+      res.status(500).json({ error: 'Failed to delete the post' });
+  }
+});
+
 app.post('/apply-settings', (req, res) => {
   const { pages, applyToAll } = req.body;
   const userID = 1; // Example user ID, replace with actual user ID from session or authentication context
