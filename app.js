@@ -83,10 +83,10 @@ async function getRandomFileUrl(pageId) {
             await createDirectory(videoDirectory); // Call directory creation function
         }
         // Fetch the list of videos for the given user
-        const videoList = fs.readdirSync(videoDirectory);
+        // const videoList = fs.readdirSync(`https://marstarrallo.loophole.site/files/${videoDirectory}`);
         // Choose a random video from the list
-        const randomVideo = videoList[Math.floor(Math.random() * videoList.length)];
-        console.log(`https://marstarrallo.loophole.site/files/${videoDirectory}${randomVideo}`);
+        const randomVideo = 'vid1 - Copy_C.mp4';//videoList[Math.floor(Math.random() * videoList.length)];
+        
         const response = await axiosInstance.get(`https://marstarrallo.loophole.site/files/${videoDirectory}${randomVideo}`);
 
         return response.data.fileUrl;
@@ -114,7 +114,6 @@ async function createDirectory(path) {
     }
 }
 
-
 const fetchRandomDescription = async (pageId) => {
     const query = `
       SELECT content FROM pages
@@ -136,7 +135,8 @@ const fetchRandomDescription = async (pageId) => {
 async function publishPost(post) {
 
         console.log(post);
-    const accessToken = config.facebookAuth.access_token;
+
+    const userAccessToken = config.facebookAuth.longliveAccessToken;
     const pageId = post.PageID;
 
     try {
@@ -153,9 +153,18 @@ async function publishPost(post) {
         //         },
         //     }
         // );
-        console.log(pageId);
+
+        const resp = await axios.get(`https://graph.facebook.com/v19.0/me/accounts?access_token=${userAccessToken}`);
+        const page = resp.data.data.find(page => page.id == pageId);
+            // console.log(resp.data.data);
+        if (!page) {
+            throw new Error(`Page with ID ${pageId} not found for the user.`);
+        }
+
+        const pageAccessToken = page.access_token;
+       
         const fileUrl = await getRandomFileUrl(pageId);
-        const longLivedAccessToken = accessToken;
+        const longLivedAccessToken = pageAccessToken;
 
         // Step 1: Start a video upload session
         const startUploadResponse = await axios.post(
@@ -171,7 +180,7 @@ async function publishPost(post) {
         const {
             video_id
         } = startUploadResponse.data;
-
+         console.log(fileUrl);
         // Step 2: Upload the video  
         const response = await axios.post(`https://rupload.facebook.com/video-upload/v19.0/${video_id}`, null, {
             headers: {
