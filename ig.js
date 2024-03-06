@@ -1,4 +1,3 @@
-
 const express = require('express');
 const app = express();
 const PORT = 3001;
@@ -9,7 +8,7 @@ const accessToken = "EAATvPyRhL0MBO8fiq3cuLXLDiu9ghUJqPdwTRcu1hoJV3HRVNXvKaMzZCu
 const instagramUserId = "17841449973104506";
 
 app.get('/upload-ig-reel', async (req, res) => {
-    const reelUrl = "https://alphaomegaskenderbeu.loophole.site/al_c.mp4";
+    const reelUrl = "https://alphanodeserver.loophole.site/al_c.mp4";
     const caption = "Trust the process #hashtag";
 
     const postUrl = `https://graph.facebook.com/${instagramUserId}/media?video_url=${encodeURIComponent(reelUrl)}&caption=${encodeURIComponent(caption)}&access_token=${accessToken}&media_type=REELS&share_to_feed=true`;
@@ -17,7 +16,7 @@ app.get('/upload-ig-reel', async (req, res) => {
     const postOptions = {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+            "Content-Type": "application/json",
         },
     };
 
@@ -25,7 +24,7 @@ app.get('/upload-ig-reel', async (req, res) => {
         const fetch = (await import('node-fetch')).default;
         const uploadResponse = await fetch(postUrl, postOptions);
         const uploadResult = await uploadResponse.json();
-        
+
         if (uploadResult.error) {
             console.error('Error uploading the reel:', uploadResult.error);
             res.status(500).send('Error uploading the reel');
@@ -57,12 +56,14 @@ app.get('/upload-ig-reel', async (req, res) => {
             res.status(500).send(`Failed to publish the reel, final status: ${status}`);
             return;
         }
-      
+
         // Now publish the uploaded reel
         const publishUrl = `https://graph.facebook.com/v19.0/${instagramUserId}/media_publish?creation_id=${creationId}&access_token=${accessToken}`;
-        const publishResponse = await fetch(publishUrl, { method: 'POST' });
+        const publishResponse = await fetch(publishUrl, {
+            method: 'POST'
+        });
         const publishResult = await publishResponse.json();
-        
+
         if (publishResult.error) {
             console.error('Error publishing the reel:', publishResult.error);
             res.status(500).send('Error publishing the reel');
