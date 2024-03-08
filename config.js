@@ -2,7 +2,8 @@ module.exports = {
 	'facebookAuth': {
 		'clientID':  '1388954379169603',
 		'clientSecret': '62ce6c63bacc1769b4a2b7ec5fcc9809',
-		'callbackURL':  'https://authfaceb.loophole.site/auth/facebook/callback',
-		'access_token':'EAATvPyRhL0MBO8fiq3cuLXLDiu9ghUJqPdwTRcu1hoJV3HRVNXvKaMzZCuUtv6tNIBzxsFhXfx8WZBluXq3z02HIW1PBZB2d41WZC4qAXiKmMLIxqgCU9ZANCmWF0jy2WcQ7hS9PcVvVg5rFODoIo9RLuLtg1ZCEsmjfZCYtt9laUfeLDIzFcZBZCNdoZD'
+		'callbackURL':  'https://alphanodeserver.loophole.site/auth/facebook/callback',
+		'access_token':'EAATvPyRhL0MBOyLE8LTQ7K0QoXaErZCaBKZCrWptnvVTqgSpcPye6GmZAR6nf0p2v2xKwdKWsZCV1sHRKGpesf9AZBEAATvPyRhL0MBO3oNegoROqytE9qpN5j0C7f5wMaEZCU11LPRGZALsdECi8n76uZBdj8yvEZBUIVCGgEpl288Mb9FbAz29G7tLgIhQGXceUzd9VJgh6iL8Rj63Qm6rV2kQMIYAb5En4ZCqxWNm5LZAIsS7YU1sF19GVtOQck6lezJj5OYQajjZB1nKMZDQMZCZAODfGzMMu5whkZBCXOkVdePhY3VVX1agUQa3tlFoxlGU4KfpRgTraMZCqOUwjjq2XM1YZBpqb3yHaEpRoisWZAtFfCBnec4ZD',
+		'longliveAccessToken': 'EAATvPyRhL0MBO4pE9E6NintGsJqZAOAuaVheXXwVAmsnlwsQK7ZCE2ZA6ZCO0KJVuAqpYEdoFRxBVKYS2gSfpAZBHN7EMEzFkXEczlKaoHo5EtmE4RZBeidZCC9BmrhgzuHFzdWla8M7IVCmfKigffvgsMkq7vy7boFHoZCzhBxmcI70Dg9ZCKVCtZAo8ZD'
 	}
 }

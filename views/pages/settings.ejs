@@ -43,7 +43,12 @@
                             <p>Current Scheduled Times:</p>
                             <ul>
                                 <% page.posts.forEach(function(post) { %>
-                                <li><%= post.ScheduledTime %></li>
+                                    <li>
+                                        <%= post.ScheduledTime %> 
+                                        <a href="#" class="delete-time" data-post-id="<%= post.id %>">
+                                            <i class="material-icons" style="cursor:pointer;">close</i>
+                                        </a>
+                                    </li>
                                 <% }); %>
                             </ul>
                         </div>
@@ -113,6 +118,28 @@
         container.appendChild(timePicker);
         M.Timepicker.init(timePicker, { twelveHour: false }); // Initialize the new time picker
     }
+    document.querySelectorAll('.delete-time').forEach(button => {
+        button.addEventListener('click', async function(e) {
+            e.preventDefault();
+            const postId = this.getAttribute('data-post-id');
+            try {
+                const response = await fetch(`/delete-scheduled-post/${postId}`, { method: 'DELETE' });
+                const result = await response.json();
+                if (response.ok) {
+                    M.toast({html: 'Schedule deleted successfully'});
+                    // Optionally remove the li element from the DOM
+                    this.parentNode.remove();
+                } else {
+                    M.toast({html: `Error: ${result.error}`});
+                }
+            } catch (error) {
+                console.error('Error deleting schedule:', error);
+                M.toast({html: 'Error deleting schedule'});
+            }
+        });
+    });
+
+
 });
 
 
