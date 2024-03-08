@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
       },
       PageAuthToken: {
         type: Sequelize.TEXT

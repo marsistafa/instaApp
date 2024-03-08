@@ -8,7 +8,7 @@ const accessToken = "EAATvPyRhL0MBO8fiq3cuLXLDiu9ghUJqPdwTRcu1hoJV3HRVNXvKaMzZCu
 const instagramUserId = "17841449973104506";
 
 app.get('/upload-ig-reel', async (req, res) => {
-    const reelUrl = "https://alphanodeserver.loophole.site/al_c.mp4";
+    const reelUrl = "https://alphanodeserve889.loophole.site/al_c.mp4";
     const caption = "Trust the process #hashtag";
 
     const postUrl = `https://graph.facebook.com/${instagramUserId}/media?video_url=${encodeURIComponent(reelUrl)}&caption=${encodeURIComponent(caption)}&access_token=${accessToken}&media_type=REELS&share_to_feed=true`;

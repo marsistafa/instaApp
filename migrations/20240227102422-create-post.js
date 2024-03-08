@@ -13,13 +13,16 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
+      },
+      PageID: {
+        type: Sequelize.TEXT
       },
       Content: {
         type: Sequelize.TEXT
       },
       ScheduledTime: {
-        type: Sequelize.DATE
+        type: Sequelize.TIME
       },
       createdAt: {
         type: Sequelize.DATE

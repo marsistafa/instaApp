@@ -13,7 +13,10 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       UserID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
+      },
+      PageID: {
+        type: Sequelize.TEXT
       },
       MaxPostsPerDay: {
         type: Sequelize.INTEGER
