@@ -87,7 +87,7 @@ app.post('/apply-settings', (req, res) => {
 
     pages.forEach((page, index) => {
         const pageID = page.id;
-        const Content = page.caption;
+        const Content = page.caption??'';
         let maxPostsPerDay = page.postsLimit || 0; // Default to 0 if not provided
         let scheduledTimes = page.scheduleTimes || []; // Assume scheduleTimes are now part of each page object
 
@@ -125,8 +125,8 @@ app.post('/apply-settings', (req, res) => {
             // Insert or update scheduled times for each post
             scheduledTimes.forEach((time) => {
                 if (!time) return; // Skip empty or undefined times
-                const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, NOW(), NOW())';
-                connection.query(postQuery, [pageID, userID, time], (err) => {
+                const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())';
+                connection.query(postQuery, [pageID, userID, Content, time], (err) => {
                     if (err) {
                         console.error('Error saving scheduled post:', err);
                         // Consider accumulating errors to handle them after the loop

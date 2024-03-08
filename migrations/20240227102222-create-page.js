@@ -10,9 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       PageID: {
-        type: Sequelize.INTEGER
+        type: Sequelize.TEXT
       },
       UserID: {
+        type: Sequelize.TEXT
+      },
+      Content: {
         type: Sequelize.TEXT
       },
       PageAuthToken: {
