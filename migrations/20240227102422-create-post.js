@@ -15,6 +15,9 @@ module.exports = {
       UserID: {
         type: Sequelize.TEXT
       },
+      Published: {
+        type: Sequelize.BOOLEAN
+      },
       PageID: {
         type: Sequelize.TEXT
       },

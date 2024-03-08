@@ -125,7 +125,7 @@ app.post('/apply-settings', (req, res) => {
             // Insert or update scheduled times for each post
             scheduledTimes.forEach((time) => {
                 if (!time) return; // Skip empty or undefined times
-                const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt) VALUES (?, ?, ?, ?, NOW(), NOW())';
+                const postQuery = 'INSERT INTO Posts (PageID, UserID, Content, ScheduledTime, createdAt, updatedAt, Published) VALUES (?, ?, ?, ?, NOW(), NOW(), 0)';
                 connection.query(postQuery, [pageID, userID, Content, time], (err) => {
                     if (err) {
                         console.error('Error saving scheduled post:', err);

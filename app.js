@@ -50,7 +50,8 @@ const afterTime = new Date(currentTime.getTime() + margin * 60000).toISOString()
 // console.log(afterTime);
 const query = `
 SELECT * FROM Posts 
-WHERE ScheduledTime BETWEEN ? AND ? 
+WHERE 1=1
+-- ScheduledTime BETWEEN ? AND ? 
 AND Published = FALSE
 `;
 const [rows] = await dbConnection.execute(query, [beforeTime, afterTime]);
@@ -65,7 +66,7 @@ try {
 const userQuery = `
 SELECT u.username
 FROM Users u
-JOIN Pages p ON u.id = p.userid
+JOIN Pages p ON u.userid = p.userid
 WHERE p.pageid = ?;
 `;
 const [userRows] = await dbConnection.execute(userQuery, [pageId]);
@@ -134,7 +135,7 @@ async function publishPost(post) {
 console.log(post);
 
 const userAccessToken = config.facebookAuth.longliveAccessToken;
-const pageId = post.PageID;
+const pageId = post.pageID;
 
 try {
 
