@@ -39,35 +39,41 @@ process.exit(1);
 
 connectToDatabase();
 
-// Function to fetch scheduled posts from the database
-async function fetchScheduledPosts() {
-// Calculate time margin
-const margin = 5; // Margin in minutes
-const currentTime = new Date();
-const beforeTime = new Date(currentTime.getTime() - margin * 60000).toISOString().slice(0, 19).replace('T', ' ');
-const afterTime = new Date(currentTime.getTime() + margin * 60000).toISOString().slice(0, 19).replace('T', ' ');
-// console.log(beforeTime);
-// console.log(afterTime);
-const query = `
-SELECT * FROM Posts 
-WHERE 1=1
--- ScheduledTime BETWEEN ? AND ? 
-AND Published = FALSE
-`;
-const [rows] = await dbConnection.execute(query, [beforeTime, afterTime]);
-return rows;
+async function fetchScheduledPosts(req) {
+    try {
+        // console.log(req);
+        // Calculate time margin
+        const margin = 5; // Margin in minutes
+        const userid = 421387330421325; // Assuming the user ID is available in the request object
+        const currentTime = new Date();
+        const beforeTime = new Date(currentTime.getTime() - margin * 60000).toISOString().slice(0, 19).replace('T', ' ');
+        const afterTime = new Date(currentTime.getTime() + margin * 60000).toISOString().slice(0, 19).replace('T', ' ');
+
+        const query = `
+            SELECT * FROM Posts 
+            WHERE 1=1
+            -- AND ScheduledTime BETWEEN ? AND ? 
+            AND Published = FALSE
+            AND userID = ?;
+        `;
+        const [rows] = await dbConnection.execute(query, [userid]);
+        return rows;
+    } catch (error) {
+        console.error('Error fetching scheduled posts:', error.response ? error.response.data : error.message);
+        throw new Error('Failed to fetch scheduled posts');
+    }
 }
 
-const axiosInstance = axios.create();
 
 async function getRandomFileUrl(pageId) {
+
 try {
 // Fetch the user information based on the pageId
 const userQuery = `
 SELECT u.username
 FROM Users u
-JOIN Pages p ON u.userid = p.userid
-WHERE p.pageid = ?;
+JOIN Pages p ON u.userID = p.userID
+WHERE p.PageID = ?;
 `;
 const [userRows] = await dbConnection.execute(userQuery, [pageId]);
 
@@ -83,12 +89,19 @@ if (!fs.existsSync(videoDirectory)) {
 await createDirectory(videoDirectory); // Call directory creation function
 }
 // Fetch the list of videos for the given user
-// const videoList = fs.readdirSync(`https://marstarrallo.loophole.site/files/${videoDirectory}`);
-// Choose a random video from the list
-const randomVideo = 'vid1 - Copy_C.mp4';//videoList[Math.floor(Math.random() * videoList.length)];
-const response = await axiosInstance.get(`https://marstarrallo.loophole.site/files/${videoDirectory}${randomVideo}`);
+// const videoList = (`https://marstarrallo.loophole.site/files/${videoDirectory}`);
+const response = await axios.get(`https://marstarrallo.loophole.site/files/user1/pg1/panda7.mp4`);
+const videoList = response.data;
+
+if (videoList.length === 0) {
+    throw new Error(`No videos found in directory: ${videoDirectory}`);
+}
+
+const randomVideo = videoList[Math.floor(Math.random() * videoList.length)];
+const url = `https://marstarrallo.loophole.site/files/user1/pg1/panda7.mp4`;
 if(response){
-return `https://marstarrallo.loophole.site/files/${videoDirectory}${randomVideo}`;
+// return response.data;
+return url;
 }
 } catch (error) {
 console.error('Error fetching random file URL:', error.response ? error.response.data : error.message);
@@ -101,7 +114,7 @@ try {
 const response = await axios.post('https://marstarrallo.loophole.site/filedev', {
 action: "create",
 type: "folder",
-path: path // Assuming the provided path is correct
+path: `client/${path}` // Assuming the provided path is correct
 }, {
 headers: {
 "Content-Type": "application/json"
@@ -115,8 +128,8 @@ console.error('Error creating directory:', error);
 
 const fetchRandomDescription = async (pageId) => {
 const query = `
-SELECT content FROM pages
-WHERE page_id = ?
+SELECT content FROM Pages
+WHERE PageID = ?
 ORDER BY RAND()
 LIMIT 1;
 `;
@@ -162,7 +175,10 @@ throw new Error(`Page with ID ${pageId} not found for the user.`);
 const pageAccessToken = page.access_token;
 const fileUrl = await getRandomFileUrl(pageId);
 const longLivedAccessToken = pageAccessToken;
+// console.log(fileUrl)
 
+// console.log('Waiting for one minute before uploading the video...');
+// await new Promise(resolve => setTimeout(resolve, 60000));
 // Step 1: Start a video upload session
 const startUploadResponse = await axios.post(
 `https://graph.facebook.com/v19.0/${pageId}/video_reels`, {
@@ -174,21 +190,23 @@ headers: {
 },
 });
 
+
 const {
 video_id
 } = startUploadResponse.data;
-console.log(fileUrl);
+console.log(video_id);
 // Step 2: Upload the video 
 const response = await axios.post(`https://rupload.facebook.com/video-upload/v19.0/${video_id}`, null, {
 headers: {
 'Authorization': `OAuth ${longLivedAccessToken}`,
 'file_url': fileUrl,
+//replace w fileUrl
 'Content-Type': 'application/x-www-form-urlencoded',
 },
 });
 
 // Step 3: Publish the reel using the uploaded video
-
+// console.log(response);
 const description = await fetchRandomDescription(pageId);
 
 const publishResponse = await axios.post(
@@ -208,22 +226,22 @@ access_token: longLivedAccessToken,
 );
 const updateQuery = 'UPDATE Posts SET Published = TRUE WHERE id = ?';
 await dbConnection.execute(updateQuery, [post.id]);
-
+console.log('Published Reel',publishResponse);
 console.log(`Post ${post.id} published successfully and marked as published in database.`);
 
 // res.json({ success: true, video_id: video_id, publishResponse: publishResponse.data });
 } catch (error) {
-console.error('Error uploading video reel:', error.response ? error.response.data : error.message);
-res.status(500).json({
-error: 'Failed to upload video reel',
-details: error.response ? error.response.data : error.message
-});
+console.error('Error uploading video reeeel:', error.response ? error.response.data : error.message);
+// res.status(500).json({
+// error: 'Failed to upload video reel',
+// details: error.response ? error.response.data : error.message
+// });
 }
 }
 
-cron.schedule('* * * * *', async () => {
+cron.schedule('* * * * *', async (req,res) => {
 console.log('Checking for scheduled posts to publish...');
-const scheduledPosts = await fetchScheduledPosts();
+const scheduledPosts = await fetchScheduledPosts(req);
 for (const post of scheduledPosts) {
 try {
 await publishPost(post);

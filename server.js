@@ -21,7 +21,7 @@ app.use(passport.session());
 
 const port = 3000;
 
-// Parse URL-encoded bodies (as sent by HTML forms)
+// Parse URL-encoded bodies (as sent by HTML forms) 
 app.use(bodyParser.urlencoded({
     extended: true
 }));
