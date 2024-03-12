@@ -12,7 +12,17 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+    static async findAllUsers() {
+      try {
+        const users = await User.findAll();
+        return users;
+      } catch (error) {
+        throw new Error('Failed to find all users');
+      }
+    }
   }
+
+
   User.init({
     UserID: DataTypes.INTEGER,
     Username: DataTypes.STRING,

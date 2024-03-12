@@ -1,9 +1,9 @@
 module.exports = {
 	'facebookAuth': {
-		'clientID':  '938701471198540',
-		'clientSecret': 'ec50c2b1ba330ca696be8165ad5aada6',
+		'clientID':  '319159637823569',
+		'clientSecret': '0be839b82dab78b622050cb06f486ac3',
 		'callbackURL':  'https://alphanodeserve889.loophole.site/auth/facebook/callback',
-		'access_token':'EAANVvne9rUwBOyRgpuhS5XZAvl4qFAgVWqHpe6ZAVZAWjCwmwtihClovqDdRnqx9N9P219hx6tYztjBZAnuNFnuiuZBtI6iDWCXGFynURPBMuxrKEcse7XiaEoIM4muRtF6FgDi5OxOoq3gqH1h2w7l68zLQeQ1WfgP1CqDF7ZC3jA9MlhWLQOZBzK32MgsgvN4vlb1qOTm2KFBVEm7KGLTTXOvh7grrKp0VmJMx6DxxfFrcDQQO1kRR2jcfcekyAZDZD',
-		'longliveAccessToken': 'EAANVvne9rUwBOyRgpuhS5XZAvl4qFAgVWqHpe6ZAVZAWjCwmwtihClovqDdRnqx9N9P219hx6tYztjBZAnuNFnuiuZBtI6iDWCXGFynURPBMuxrKEcse7XiaEoIM4muRtF6FgDi5OxOoq3gqH1h2w7l68zLQeQ1WfgP1CqDF7ZC3jA9MlhWLQOZBzK32MgsgvN4vlb1qOTm2KFBVEm7KGLTTXOvh7grrKp0VmJMx6DxxfFrcDQQO1kRR2jcfcekyAZDZD'
+		'access_token':'EAAEiRiTW0FEBO7k82h0kWQO65pbGeovVlKzngJt2ZBLZBLb7fmj961JBTgdYh2QQscC2iMapnxGvxw49JS7RNs76y8QX1gb7WMJ9Uq0dMx65gCGJrLtp0efLXOlqk9vSuZBCDY8Nn4PI8sG2thBXOGF2Jrm3q96gvbZBZCxvUtQlhwzI7DpZAKlz8ZD',
+		'longliveAccessToken': 'EAAEiRiTW0FEBO7k82h0kWQO65pbGeovVlKzngJt2ZBLZBLb7fmj961JBTgdYh2QQscC2iMapnxGvxw49JS7RNs76y8QX1gb7WMJ9Uq0dMx65gCGJrLtp0efLXOlqk9vSuZBCDY8Nn4PI8sG2thBXOGF2Jrm3q96gvbZBZCxvUtQlhwzI7DpZAKlz8ZD'
 	}
 }

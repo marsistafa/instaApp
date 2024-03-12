@@ -1,0 +1,8 @@
+INFO:root:Downloading video from: https://marstarrallo.loophole.site/files/Dejvi%20Uka/1570540453218688/Converted/Panda01_C.mp4
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): marstarrallo.loophole.site:443
+INFO:root:Downloading video from: https://marstarrallo.loophole.site/files/Dejvi%20Uka/1570540453218688/Converted/Panda01_C.mp4
+DEBUG:urllib3.connectionpool:Starting new HTTPS connection (1): marstarrallo.loophole.site:443
+DEBUG:urllib3.connectionpool:https://marstarrallo.loophole.site:443 "GET /files/Dejvi%20Uka/1570540453218688/Converted/Panda01_C.mp4 HTTP/1.1" 200 2669261
+INFO:root:Video downloaded successfully
+INFO:root:Starting Facebook video upload
+INFO:root:Temporary file deleted

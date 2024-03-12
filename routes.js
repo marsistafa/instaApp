@@ -9,6 +9,15 @@ const {
     User
 } = require('./models');
 
+passport.serializeUser((user, done) => {
+    done(null, user);
+});
+
+// Deserialize user from the session
+passport.deserializeUser((user, done) => {
+    done(null, user);
+});
+
 router.get('/', function(req, res) {
     res.render('pages/index.ejs');
 });
